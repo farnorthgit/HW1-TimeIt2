@@ -33,23 +33,46 @@ bool readFile(const string &filename, list<string> &gutenberg) {
         fin >> line;
         if (!fin) break;
         gutenberg.push_back(line);
-        cout << line << endl;
+        cout << line << " ";
     }
     return true;
 }
 
 int main() {
+    // declare the list that will contain the book
     list<string> gutenberg;
+    // declare the timer
+    StopWatch timer;
+
+    // start the timer to track how long to read file into list
+    timer.start();
     bool readsuccess = readFile("constitutionText.txt", gutenberg);
+    timer.stop();
     if (!readsuccess) {cout << "file read failed"; return 1;}
     else {
-        StopWatch timer;
-        timer.start();
-//        if (find(vv.begin(), vv.end(), solution) != vv.end())
+        cout << endl << timer.milli() << " milliseconds to read into a list." << endl;
+        cout << timer.second() << " seconds to read into a list." << endl;
+    }
+
+    // prepare to find solution and then proceed with doing so
+    string solution = "Twelfth";
+    timer.start();
+    auto findIter = find(gutenberg.begin(), gutenberg.end(), "Twelfth");
+    timer.stop();
+    cout << endl << "The solution is " << *findIter << endl;
+    cout << timer.milli() << " milliseconds to find the solution." << endl;
+    cout << timer.second() << " seconds to find the solution." << endl;
+
+
+    timer.start();
+    gutenberg.sort();
+    timer.stop();
+    cout << endl << "The book is now sorted." << endl;
+    cout << timer.milli() << " milliseconds to sort." << endl;
+    cout << timer.second() << " seconds to sort." << endl;
+    for (auto l : gutenberg)
+        cout << l << " ";
+    //        if (find(vv.begin(), vv.end(), solution) != vv.end())
 //            std::cout << "vv contains: " << solution << '\n';
 //        else std::cout << "v does not contain: " << solution << '\n';
-        timer.stop();
-        cout << timer.milli() << endl;
-        cout << timer.second() << endl;
-    }
 }
